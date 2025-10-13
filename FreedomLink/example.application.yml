@@ -1,0 +1,48 @@
+spring:
+  security:
+    # Enable basic authentication for the config server
+    enabled: true
+    user:
+      # Set the username to access the config server
+      name: admin
+      # Set the password to access the config server
+      password: "youshallnotpass"
+  profiles:
+    # Set to native to use a local filesystem/static url
+    active: native
+  cloud:
+    config:
+      server:
+        # Set to true to allow empty config files to be accepted
+        accept-empty: false
+        # See: https://docs.spring.io/spring-cloud-config/docs/current/reference/html/#_git_backend
+        git:
+          # The uri supports the following placeholders: {application}, {profile} & {label}
+          uri: "https://github.com/FreedomLink-devs/FreedomLink-Example-Configs"
+          # set this to {application} if you group your configs by application
+          search-paths: "{application}"
+          skipSslValidation: false
+          timeout: 5
+          cloneOnStart: true
+          force-pull: false
+          deleteUntrackedBranches: false
+          refreshRate: 0
+          # username: trolley
+          # for GitHub, use a personal access token
+          # password: strongpassword
+          defaultLabel: main
+        # See: https://docs.spring.io/spring-cloud-config/docs/current/reference/html/#_file_system_backend
+        native:
+          # when using the native backend, the searchLocations supports the following placeholders: {application}, {profile} & {label}
+          # make sure to tell the FreedomLink config server a specific config location via spring.config.location=application.yml
+          # or else it will try to load its own config from any subdirectory your FreedomLink server configs might be in
+          searchLocations: "file:config/{application}"
+
+server:
+  port: 8888
+  address: 0.0.0.0
+
+logging:
+  level:
+    root: INFO
+    org.springframework.cloud.config: DEBUG

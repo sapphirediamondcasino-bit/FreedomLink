@@ -1,0 +1,40 @@
+package dev.FreedomLink.youtube.plugin;
+
+import dev.FreedomLink.youtube.clients.*;
+import dev.FreedomLink.youtube.clients.skeleton.Client;
+
+public class ClientProviderV3 implements ClientProvider {
+    @Override
+    public Client[] getClients(String[] clients, OptionsProvider optionsProvider) {
+        return getClients(ClientMapping.values(), clients, optionsProvider);
+    }
+
+    private enum ClientMapping implements ClientReference {
+        ANDROID(Android::new),
+        ANDROID_MUSIC(AndroidMusic::new),
+        ANDROID_VR(AndroidVr::new),
+        IOS(Ios::new),
+        MUSIC(Music::new),
+        TV(Tv::new),
+        TVHTML5EMBEDDED(TvHtml5Embedded::new),
+        WEB(Web::new),
+        WEBEMBEDDED(WebEmbedded::new),
+        MWEB(MWeb::new);
+
+        private final ClientWithOptions<Client> clientFactory;
+
+        ClientMapping(ClientWithOptions<Client> clientFactory) {
+            this.clientFactory = clientFactory;
+        }
+
+        @Override
+        public String getName() {
+            return name();
+        }
+
+        @Override
+        public Client getClient(ClientOptions options) {
+            return clientFactory.create(options);
+        }
+    }
+}
