@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: FreedomLink Discord
+    url: https://discord.gg/ZW4s47Ppw4
+    about: Please ask and answer questions here or in discussions
+  - name: FreedomLink Discussions
+    url: https://github.com/FreedomLink-devs/FreedomLink/discussions/categories/q-a
+    about: Please ask and answer questions here or in Discord
