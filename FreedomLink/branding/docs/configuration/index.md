@@ -1,0 +1,123 @@
+---
+description: How to configure FreedomLink
+---
+
+# Configuration
+
+There are mainly 3 different ways to configure FreedomLink:
+
+## Config File
+
+This is the easiest way to configure FreedomLink. You create a file called `application.yml` where you start your FreedomLink server.
+See the [application.yml](config/file.md) documentation for more information.
+
+## Config Server
+
+!!! warning
+
+    This is an advanced feature geared towards big deployments.
+
+You can run the [FreedomLink Config Server](https://github.com/FreedomLink-devs/FreedomLink-Config-Server) to manage the configuration of multiple FreedomLink servers at one place.
+See the [Config Server](config/config-server.md) documentation for more information.
+
+## Environment Variables
+
+You can also configure FreedomLink using environment variables.
+See the [environment variables](config/environment-variables.md) documentation for more information.
+
+<details markdown="1">
+<summary>environment variables</summary>
+
+```env title="enviroment variables"
+SERVER_PORT
+SERVER_ADDRESS
+SERVER_HTTP2_ENABLED
+
+FreedomLink_PLUGINS_0_DEPENDENCY
+FreedomLink_PLUGINS_0_REPOSITORY
+FreedomLink_PLUGINS_0_SNAPSHOT
+
+FreedomLink_PLUGINS_1_DEPENDENCY
+FreedomLink_PLUGINS_1_REPOSITORY
+FreedomLink_PLUGINS_1_SNAPSHOT
+
+FreedomLink_PLUGINS_DIR
+FreedomLink_DEFAULT_PLUGIN_REPOSITORY
+FreedomLink_DEFAULT_PLUGIN_SNAPSHOT_REPOSITORY
+
+FreedomLink_SERVER_PASSWORD
+FreedomLink_SERVER_SOURCES_YOUTUBE
+FreedomLink_SERVER_SOURCES_BANDCAMP
+FreedomLink_SERVER_SOURCES_SOUNDCLOUD
+FreedomLink_SERVER_SOURCES_TWITCH
+FreedomLink_SERVER_SOURCES_VIMEO
+FreedomLink_SERVER_SOURCES_NICO
+FreedomLink_SERVER_SOURCES_HTTP
+FreedomLink_SERVER_SOURCES_LOCAL
+
+FreedomLink_SERVER_FILTERS_VOLUME
+FreedomLink_SERVER_FILTERS_EQUALIZER
+FreedomLink_SERVER_FILTERS_KARAOKE
+FreedomLink_SERVER_FILTERS_TIMESCALE
+FreedomLink_SERVER_FILTERS_TREMOLO
+FreedomLink_SERVER_FILTERS_VIBRATO
+FreedomLink_SERVER_FILTERS_DISTORTION
+FreedomLink_SERVER_FILTERS_ROTATION
+FreedomLink_SERVER_FILTERS_CHANNEL_MIX
+FreedomLink_SERVER_FILTERS_LOW_PASS
+
+FreedomLink_SERVER_NON_ALLOCATING_FRAME_BUFFER
+FreedomLink_SERVER_BUFFER_DURATION_MS
+FreedomLink_SERVER_FRAME_BUFFER_DURATION_MS
+FreedomLink_SERVER_OPUS_ENCODING_QUALITY
+FreedomLink_SERVER_RESAMPLING_QUALITY
+FreedomLink_SERVER_TRACK_STUCK_THRESHOLD_MS
+FreedomLink_SERVER_USE_SEEK_GHOSTING
+
+FreedomLink_SERVER_PLAYER_UPDATE_INTERVAL
+FreedomLink_SERVER_YOUTUBE_PLAYLIST_LOAD_LIMIT
+FreedomLink_SERVER_YOUTUBE_SEARCH_ENABLED
+FreedomLink_SERVER_SOUNDCLOUD_SEARCH_ENABLED
+
+FreedomLink_SERVER_GC_WARNINGS
+
+FreedomLink_SERVER_RATELIMIT_IP_BLOCKS
+FreedomLink_SERVER_RATELIMIT_EXCLUDE_IPS
+FreedomLink_SERVER_RATELIMIT_STRATEGY
+FreedomLink_SERVER_RATELIMIT_SEARCH_TRIGGERS_FAIK
+FreedomLink_SERVER_RATELIMIT_RETRY_LIMIT
+
+FreedomLink_SERVER_YOUTUBE_CONFIG_EMAIL
+FreedomLink_SERVER_YOUTUBE_CONFIG_PASSWORD
+
+FreedomLink_SERVER_HTTP_CONFIG_PROXY_HOST
+FreedomLink_SERVER_HTTP_CONFIG_PROXY_PORT
+FreedomLink_SERVER_HTTP_CONFIG_PROXY_USER
+FreedomLink_SERVER_HTTP_CONFIG_PROXY_PASSWORD
+
+METRICS_PROMETHEUS_ENABLED
+METRICS_PROMETHEUS_ENDPOINT
+
+SENTRY_DSN
+SENTRY_ENVIRONMENT
+SENTRY_TAGS_SOME_KEY
+SENTRY_TAGS_ANOTHER_KEY
+
+LOGGING_FILE_PATH
+LOGGING_LEVEL_ROOT
+LOGGING_LEVEL_FreedomLink
+
+LOGGING_REQUEST_ENABLED
+LOGGING_REQUEST_INCLUDE_CLIENT_INFO
+LOGGING_REQUEST_INCLUDE_HEADERS
+LOGGING_REQUEST_INCLUDE_QUERY_STRING
+LOGGING_REQUEST_INCLUDE_PAYLOAD
+LOGGING_REQUEST_MAX_PAYLOAD_LENGTH
+
+LOGGING_LOGBACK_ROLLINGPOLICY_MAX_FILE_SIZE
+LOGGING_LOGBACK_ROLLINGPOLICY_MAX_HISTORY
+```
+
+</details>
+
+You can also use a combination of both. Environment variables take precedence over the `application.yml` file.
