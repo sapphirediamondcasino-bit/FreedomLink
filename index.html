@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FreedomLink</title><link rel="icon" href="logo.png">
+<style>
+:root{--bg:#07080f;--card:#0f1322;--line:rgba(255,255,255,.09);--txt:#eef0fa;--mut:#9aa3c0;--g:linear-gradient(90deg,#2b7be0,#9b4fb0 55%,#ef2b34)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;min-height:100vh;color:var(--txt);font:16px/1.65 Inter,system-ui,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased;background:var(--bg);
+background-image:radial-gradient(900px 520px at 10% -6%,rgba(26,100,183,.38),transparent 60%),radial-gradient(800px 520px at 92% 0,rgba(239,19,28,.22),transparent 60%),radial-gradient(760px 620px at 50% 6%,rgba(113,61,119,.3),transparent 66%);background-repeat:no-repeat}
+a{color:#8cc0ff}h1,h2,h3{line-height:1.15;letter-spacing:-.02em}h3{margin:.2em 0 .5em}
+header{position:sticky;top:0;z-index:20;background:rgba(7,8,15,.72);backdrop-filter:blur(14px) saturate(1.4);-webkit-backdrop-filter:blur(14px) saturate(1.4);border-bottom:1px solid var(--line)}
+nav{max-width:1120px;margin:auto;display:flex;align-items:center;gap:10px;padding:10px 20px}
+.brand{display:flex;align-items:center;gap:10px;margin-right:auto;font-weight:800;font-size:19px;text-decoration:none;letter-spacing:-.02em}.brand img{height:34px;border-radius:9px}
+.links{display:flex;align-items:center;gap:4px}.links a{color:var(--mut);text-decoration:none;padding:7px 12px;border-radius:10px;font-weight:500;transition:.15s}
+.links a:hover{color:#fff;background:rgba(255,255,255,.06)}.links a.on{color:#fff;background:rgba(255,255,255,.09)}
+.links a.cta{background:var(--g);color:#fff;font-weight:700;margin-left:6px;box-shadow:0 6px 22px rgba(155,79,176,.4)}.links a.cta:hover{filter:brightness(1.12)}
+#burger{display:none;background:rgba(255,255,255,.07);border:1px solid var(--line);color:#fff;border-radius:10px;font-size:20px;padding:4px 12px;cursor:pointer}
+@media(max-width:1040px){#burger{display:block}.links{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;align-items:stretch;padding:10px 16px 16px;background:#090a14;border-bottom:1px solid var(--line)}header.open .links{display:flex}.links a.cta{margin:6px 0 0;text-align:center}}
+main{max-width:1120px;margin:auto;padding:28px 20px 70px}
+main>*{animation:rise .55s cubic-bezier(.2,.7,.2,1) both}main>*:nth-child(2){animation-delay:.06s}main>*:nth-child(3){animation-delay:.12s}main>*:nth-child(n+4){animation-delay:.18s}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}}@keyframes float{50%{transform:translateY(-7px)}}@keyframes shift{to{background-position:200% 0}}
+.hero{text-align:center;padding:64px 0 28px}.hero .logo{display:inline-block;animation:float 6s ease-in-out infinite}
+.hero .logo img{width:112px;border-radius:26px;box-shadow:0 0 0 1px var(--line),0 24px 90px rgba(155,79,176,.6)}
+.chip{display:inline-block;margin:22px 0 8px;padding:5px 14px;border-radius:99px;border:1px solid var(--line);background:rgba(255,255,255,.05);color:var(--mut);font-size:14px}
+.hero h1{font-size:clamp(40px,7.4vw,76px);line-height:1.03;letter-spacing:-.035em;margin:.15em 0 .3em}
+.grad{background:linear-gradient(90deg,#2b7be0,#9b4fb0,#ef2b34,#9b4fb0,#2b7be0);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shift 8s linear infinite}
+.lead{font-size:clamp(17px,2.2vw,21px);color:var(--mut);max-width:680px;margin:0 auto 26px}.cta-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.chips{list-style:none;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;padding:0;margin:26px 0 0}.chips li{padding:5px 13px;border-radius:99px;font-size:14px;color:var(--mut);border:1px solid var(--line);background:rgba(255,255,255,.03)}
+.chips li:before{content:"✓ ";color:#5ee0a0}
+.sec{margin:72px 0}.sec h2{font-size:clamp(26px,4vw,40px);text-align:center;margin:0 0 8px}.sub{text-align:center;color:var(--mut);max-width:620px;margin:0 auto 28px}
+.btn{display:inline-block;border:0;border-radius:12px;padding:10px 20px;font:inherit;font-weight:700;color:#fff;background:var(--g);cursor:pointer;text-decoration:none;box-shadow:0 8px 26px rgba(155,79,176,.38);transition:transform .15s,filter .15s,box-shadow .15s}
+.btn:hover{transform:translateY(-2px);filter:brightness(1.1)}.btn:active{transform:none}.btn.lg{padding:14px 28px;font-size:17px;border-radius:14px}
+.btn.ghost{background:rgba(255,255,255,.05);border:1px solid var(--line);box-shadow:none}.btn.ghost:hover{background:rgba(255,255,255,.1)}.btn.ghost.on{background:var(--g);border:0}.btn:disabled{opacity:.5;cursor:default;transform:none}
+:focus-visible{outline:2px solid #8cc0ff;outline-offset:2px}
+.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));margin:20px 0}
+.card{background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.015));border:1px solid var(--line);border-radius:18px;padding:22px;margin-bottom:12px;transition:transform .2s,border-color .2s,box-shadow .2s}
+.grid>.card{margin-bottom:0}.grid>.card:hover{transform:translateY(-4px);border-color:rgba(155,79,176,.55);box-shadow:0 18px 50px rgba(0,0,0,.35)}
+.card.hl{border:1px solid transparent;background:linear-gradient(#0f1322,#0f1322) padding-box,var(--g) border-box;box-shadow:0 20px 70px rgba(155,79,176,.22)}
+.ico{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:var(--g);margin-bottom:12px;box-shadow:0 8px 22px rgba(155,79,176,.35)}.ic{width:24px;height:24px;color:#fff}
+.steps{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}.num{width:38px;height:38px;border-radius:50%;background:var(--g);display:grid;place-items:center;font-weight:800;margin-bottom:10px}
+.band{text-align:center;padding:48px 20px;border-radius:26px;border:1px solid var(--line);background:linear-gradient(135deg,rgba(43,123,224,.22),rgba(155,79,176,.22),rgba(239,43,52,.22))}.band h2{margin:0 0 8px;font-size:clamp(26px,4vw,38px)}
+.list{padding-left:20px}.list li{margin:.35em 0}.mut{color:var(--mut)}
+input,select,textarea{width:100%;padding:11px 13px;margin:6px 0 12px;border-radius:11px;border:1px solid var(--line);background:rgba(8,10,20,.8);color:var(--txt);font:inherit;transition:border-color .15s,box-shadow .15s}
+input:focus,select:focus,textarea:focus{outline:0;border-color:#9b4fb0;box-shadow:0 0 0 3px rgba(155,79,176,.28)}
+.pill{display:inline-block;padding:1px 11px;border-radius:99px;font-size:13px;border:1px solid var(--line);background:rgba(255,255,255,.05)}.ok{color:#5ee0a0}.bad{color:#ff8a8a}
+table{width:100%;border-collapse:collapse}td,th{padding:9px 8px;border-bottom:1px solid var(--line);text-align:left;font-size:14px}th{color:var(--mut);font-weight:600}tr:hover td{background:rgba(255,255,255,.025)}.wrap{overflow-x:auto}
+code{background:rgba(255,255,255,.07);padding:2px 7px;border-radius:7px;word-break:break-all;font-size:.92em}pre{white-space:pre-wrap;margin:.5em 0}pre.c{background:rgba(5,7,15,.85);border:1px solid var(--line);padding:12px;border-radius:12px;overflow-x:auto;white-space:pre}.doc li{margin:.3em 0}
+#msg{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:rgba(20,24,42,.96);border:1px solid var(--line);padding:11px 18px;border-radius:12px;max-width:90%;display:none;z-index:50;box-shadow:0 14px 40px rgba(0,0,0,.5)}
+.banner{background:#5b1d1d;color:#ffd7d7;padding:10px 20px;text-align:center}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}.big{font-size:28px;font-weight:700}form[data-aform] input,form[data-aform] select,td select{width:auto}
+footer{max-width:1120px;margin:30px auto 0;padding:34px 20px 40px;border-top:1px solid var(--line);display:grid;gap:26px;grid-template-columns:1.4fr repeat(3,1fr)}
+footer b{display:block;margin-bottom:6px}footer a{display:block;color:var(--mut);text-decoration:none;padding:2px 0}footer a:hover{color:#fff}footer p{margin:0;color:var(--mut);font-size:14px}
+@media(max-width:700px){footer{grid-template-columns:1fr 1fr}.hero{padding-top:36px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.price{font-size:36px;font-weight:800;margin:.1em 0 .3em;letter-spacing:-.02em}.price .per{font-size:16px;font-weight:500;color:var(--mut)}.btns{display:flex;gap:10px;flex-wrap:wrap}
+.cmp td:not(:first-child),.cmp th:not(:first-child){text-align:center;width:120px}.cmp .ok{font-size:18px}
+.pl{display:grid;gap:16px;grid-template-columns:minmax(0,2fr) minmax(0,1fr);margin-top:14px}@media(max-width:860px){.pl{grid-template-columns:1fr}}
+.vid{position:relative;padding-top:56.25%;border-radius:16px;overflow:hidden;background:#000;border:1px solid var(--line);margin-bottom:12px}.vid iframe,.vid #yt{position:absolute;inset:0;width:100%;height:100%}
+.ctl .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.ctl input[type=range]{padding:0;border:0;background:none;box-shadow:none}#seek{margin:12px 0 6px}
+.qi{display:flex;gap:6px;align-items:center;border-radius:10px;padding:2px}.qi.cur{background:rgba(155,79,176,.18)}.qt{flex:1;text-align:left;background:none;border:0;color:var(--txt);font:inherit;padding:8px;cursor:pointer;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.qt:hover{color:#fff}.x{background:none;border:0;color:var(--mut);font-size:20px;cursor:pointer;padding:0 8px}.x:hover{color:#ff8a8a}
+.pill+h3{margin-top:12px}
+</style></head><body>
+<header><nav><a class="brand" href="#/"><img src="logo.png" alt=""><span class="grad">FreedomLink</span></a><button id="burger" data-act="menu" aria-label="Menu">☰</button>
+<div class="links"><a href="#/features">Features</a><a href="#/pricing">Pricing</a><a href="#/download">Download</a><a href="#/player">Player</a><a href="#/docs">Docs</a><a href="#/changelog">Changelog</a><a href="#/support">Support</a><a id="adm" href="#/admin" hidden>Admin</a><a id="acct" class="cta" href="#/login">Sign in</a></div></nav></header>
+<main></main><footer><div><b class="grad">FreedomLink</b><p>An independent audio backend, with a free Basic edition and an optional Premium subscription.</p></div>
+<div><b>Product</b><a href="#/features">Features</a><a href="#/pricing">Pricing</a><a href="#/download">Download</a><a href="#/player">Web Player</a><a href="#/changelog">Changelog</a></div>
+<div><b>Learn</b><a href="#/docs">Documentation</a><a href="#/install">Installation</a><a href="#/api">API</a><a href="#/faq">FAQ</a><a href="#/support">Support</a></div>
+<div><b>Company</b><a href="#/about">About</a><a href="#/basic">Basic</a><a href="#/premium">Premium</a><a href="#/privacy">Privacy</a><a href="#/terms">Terms</a></div></footer><div id="msg" role="status"></div>
+<script>
+// Load the Supabase library from several CDNs; the page still works (read-only) if none are reachable.
+window.__sbReady=new Promise(res=>{const urls=["https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.js","https://unpkg.com/@supabase/supabase-js@2.49.1/dist/umd/supabase.js","https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js","https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js"];let i=0;
+const next=()=>{if(window.supabase&&window.supabase.createClient)return res(true);if(i>=urls.length)return res(false);const t=document.createElement("script");t.src=urls[i++];t.onload=next;t.onerror=next;document.head.appendChild(t)};next()});
+</script>
+<script>
+window.__sbReady.then(ok=>{
+// ---- Config: set prices to show them on the Pricing page (billing itself is set up in PayPal). ----
+const CFG={url:"https://xthsvpkefdeukszexadl.supabase.co",key:"sb_publishable_wC18BYEP0mWfLpXxZ5H2jg_Ca-tqupz",price:{month:"",year:""}};
+const offline=()=>{const e={message:"The Supabase library could not be loaded (blocked network or CDN)."};
+const q=()=>{const o={};for(const k of ["select","eq","neq","order","limit","gt","single","maybeSingle","insert","update"])o[k]=()=>o;o.then=r=>r({data:null,error:e,count:0});return o};
+return{auth:{onAuthStateChange:cb=>{setTimeout(()=>cb("INITIAL_SESSION",null),0)},signInWithPassword:async()=>({error:e}),signUp:async()=>({data:{},error:e}),resetPasswordForEmail:async()=>({error:e}),signOut:async()=>({}),updateUser:async()=>({error:e})},
+from:()=>q(),functions:{invoke:async()=>({data:null,error:{message:e.message,context:null}})},storage:{from:()=>({})}}};
+if(!ok)document.body.insertAdjacentHTML("afterbegin",`<div class="banner">Couldn’t load the Supabase library, so sign-in and account features are unavailable. Open this page from your web host or a normal browser tab (not a sandboxed preview) with internet access, then reload.</div>`);
+const sb=ok?supabase.createClient(CFG.url,CFG.key):offline();
+const $=s=>document.querySelector(s),esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const fmt=d=>d?new Date(d).toLocaleDateString(undefined,{year:"numeric",month:"short",day:"numeric"}):"—";
+const mb=n=>n?(n/1048576).toFixed(1)+" MB":"—";
+const toast=t=>{const m=$("#msg");m.textContent=t;m.style.display="block";clearTimeout(toast.t);toast.t=setTimeout(()=>m.style.display="none",6000)};
+addEventListener("error",e=>toast("Error: "+e.message));addEventListener("unhandledrejection",e=>toast("Error: "+(e.reason?.message||e.reason)));
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+let user=null,recovery=false,authMode="in",adm={id:null,ok:false},cur="/",sec=null;
+async function call(fn,body){const{data,error}=await sb.functions.invoke(fn,{body});
+  if(error){let j={};try{j=await error.context.json()}catch{}
+  const net=!j.error&&!j.message&&/fetch|network|failed/i.test(error.message||"");
+  throw Object.assign(new Error(net?"Can’t reach the server function. Check that it’s deployed and that the SITE_URL secret matches this site’s address.":(j.message||j.error||error.message)),{info:j})}return data}
+const main=h=>{$("main").innerHTML=h};
+
+// ---- Pages ----
+function home(){const ic=d=>`<span class="ico"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${d}</svg></span>`;
+const F=(d,t,x)=>`<div class="card">${ic(d)}<h3>${t}</h3><p class="mut">${x}</p></div>`;
+main(`<section class="hero"><div class="logo"><img src="logo.png" alt="FreedomLink logo"></div><br><span class="chip">An independent alternative to Lavalink</span>
+<h1>Your audio backend,<br><span class="grad">independent.</span></h1>
+<p class="lead">FreedomLink is a powerful audio backend with a free Basic edition, an optional Premium subscription, and a complete platform around it: accounts, secure downloads, updates and node monitoring.</p>
+<div class="cta-row"><a class="btn lg" href="#/download">Download Basic, it’s free</a><a class="btn lg ghost" href="#/pricing">Compare editions</a></div>
+<ul class="chips"><li>Basic free forever</li><li>Server-verified licensing</li><li>SHA-256 checked downloads</li><li>Audit-logged</li></ul></section>
+<section class="sec"><h2>Everything around the engine, handled</h2><p class="sub">The audio engine runs on your own server. The platform takes care of the rest.</p><div class="grid">
+${F('<path d="M20 12v8H4v-8"/><path d="M2 7h20v5H2z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 1 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 1 0 0-5C13 2 12 7 12 7z"/>',"Free Basic edition","Free account, downloads and updates. No subscription is ever required to keep using Basic.")}
+${F('<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/>',"Secure downloads","Authorized on the server, delivered by links that expire in 60 seconds, with a SHA-256 checksum.")}
+${F('<path d="m12 2 10 5-10 5L2 7z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/>',"Separate update channels","Basic and Premium each have stable and beta channels. Basic updates are never blocked.")}
+${F('<path d="M22 12h-4l-3 9L9 3l-3 9H2"/>',"Node monitoring","Register nodes and watch their health and last check-in from one dashboard.")}
+${F('<circle cx="8" cy="15" r="4"/><path d="m11 12 9-9"/><path d="m16 7 3 3"/>',"Server-side licensing","Premium access is decided by the server, never the browser. Expiry locks Premium features and leaves installed software untouched.")}
+${F('<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h8"/>',"Audit trail","Denied downloads, rate-limit hits and administrative changes are recorded.")}
+</div></section>
+<section class="sec"><h2 style="margin-bottom:28px">Up and running in three steps</h2><div class="steps">
+<div class="card"><div class="num">1</div><h3>Create a free account</h3><p class="mut">Sign up in a minute and confirm your email.</p></div>
+<div class="card"><div class="num">2</div><h3>Download and register a node</h3><p class="mut">Grab a verified build and get a node key from your dashboard.</p></div>
+<div class="card"><div class="num">3</div><h3>Upgrade only if you want</h3><p class="mut">Premium is optional. Cancel any time and drop back to free Basic.</p></div></div></section>
+<section class="sec"><h2>Two editions, one platform</h2><p class="sub">Basic stays free. Premium is there if you want more.</p><div class="grid">
+<div class="card"><span class="pill">Free forever</span><h3>Basic</h3><ul class="list mut"><li>Free account, downloads and updates</li><li>Documentation and changelog</li><li>Node registration and monitoring</li></ul><a class="btn" href="#/login">Create free account</a></div>
+<div class="card hl"><span class="pill">Optional subscription</span><h3>Premium</h3><ul class="list mut"><li>Premium release channel, builds and updates</li><li>Premium-only features, announced in release notes</li><li>Cancel any time; Basic stays free</li></ul><a class="btn" href="#/premium">See Premium</a> <a class="btn ghost" href="#/pricing">Pricing</a></div></div></section>
+<section class="band"><h2>Start free today</h2><p class="mut" style="margin:0 0 20px">No card needed for Basic.</p><a class="btn lg" href="#/login">Create your account</a></section>`)}
+
+function pricing(){const pr=(i,l)=>CFG.price[i]?`${l} · ${esc(CFG.price[i])}`:l;
+main(`<h1 style="text-align:center">Simple pricing</h1><p class="sub">Basic is free forever. Premium is optional.</p>
+<div class="grid"><div class="card"><span class="pill">Free forever</span><h3>Basic</h3><p class="price">Free</p><ul class="list mut"><li>Free account, downloads and updates</li><li>Documentation and changelog</li><li>Node registration and monitoring</li></ul><a class="btn" href="#/login">Create free account</a></div>
+<div class="card hl"><span class="pill">Optional subscription</span><h3>Premium</h3><p class="price">${CFG.price.month?esc(CFG.price.month)+`<span class="per"> / month</span>`:"Subscription"}</p><ul class="list mut"><li>Premium release channel, builds and updates</li><li>Premium-only features, announced in release notes</li><li>Billed through PayPal; cancel any time</li></ul><div class="btns"><button class="btn" data-act="checkout" data-i="month">${pr("month","Monthly")}</button><button class="btn" data-act="checkout" data-i="year">${pr("year","Yearly")}</button></div></div></div>
+<div class="card wrap"><table class="cmp"><tr><th></th><th>Basic</th><th>Premium</th></tr>
+<tr><td>Free account, downloads, documentation access</td><td class="ok">✓</td><td class="ok">✓</td></tr>
+<tr><td>Basic updates (never gated)</td><td class="ok">✓</td><td class="ok">✓</td></tr>
+<tr><td>Node registration and health monitoring</td><td class="ok">✓</td><td class="ok">✓</td></tr>
+<tr><td>Premium release channel, builds and updates</td><td class="mut">—</td><td class="ok">✓</td></tr></table>
+<p class="mut">Premium-only features are listed in each Premium release’s notes once they have shipped and been verified. If Premium ends, those features and Premium updates lock, installed software is never touched, and Basic stays free.</p></div>`)}
+
+async function download(){main(`<h1>Download Center</h1><p class="mut">Loading releases…</p>`);
+const{data,error}=await sb.from("software_releases").select("id,version,os,arch,release_notes,file_size,sha256,published_at,release_channels(kind,products(edition))").eq("published",true).order("published_at",{ascending:false});
+if(error)return main(`<h1>Download Center</h1><p class="bad">Could not load releases.</p>`);
+const cards=(data||[]).map(r=>{const ed=r.release_channels.products.edition,k=r.release_channels.kind;
+return`<div class="card"><span class="pill">${ed}</span> <span class="pill">${k}</span><h3>v${esc(r.version)}</h3><p class="mut">${esc(r.os)} · ${esc(r.arch)} · ${mb(r.file_size)} · ${fmt(r.published_at)}</p>
+<p class="mut">SHA-256 <code>${esc(r.sha256)}</code></p>${r.release_notes?`<pre>${esc(r.release_notes)}</pre>`:""}<button class="btn" data-act="dl" data-id="${r.id}">Download</button></div>`}).join("");
+main(`<h1>Download Center</h1>${user?"":`<p class="mut"><a href="#/login">Sign in</a> with a free account to download.</p>`}
+${cards?`<div class="grid">${cards}</div>`:`<div class="card">No releases have been published yet.</div>`}
+<p class="mut">Premium builds appear here for accounts with an active Premium subscription.</p>`)}
+
+function login(){const t={in:"Sign in",up:"Create free account",reset:"Reset password"}[authMode];
+if(recovery)return main(`<div class="card" style="max-width:420px;margin:auto"><h3>Choose a new password</h3><form data-form="newpw"><input type="password" name="pw" minlength="8" placeholder="New password" required><button class="btn">Save password</button></form></div>`);
+main(`<div class="card" style="max-width:420px;margin:auto"><h3>${t}</h3><form data-form="auth">
+${authMode==="up"?`<input name="name" placeholder="Display name" maxlength="80">`:""}<input type="email" name="email" placeholder="Email" required>
+${authMode!=="reset"?`<input type="password" name="pw" placeholder="Password (8+ characters)" minlength="8" required>`:""}<button class="btn">${t}</button></form>
+<p class="mut">${authMode==="in"?`<a href="#" data-act="mode" data-m="up">Create account</a> · <a href="#" data-act="mode" data-m="reset">Forgot password?</a>`:`<a href="#" data-act="mode" data-m="in">Back to sign in</a>`}</p></div>`)}
+
+async function dashboard(){if(!user){go("/login");return}
+main(`<h1>Dashboard</h1><p class="mut">Loading…</p>`);
+const[prof,lic,sub,nodes,dls,tix]=await Promise.all([
+sb.from("profiles").select("display_name").eq("id",user.id).single(),
+sb.from("licenses").select("status,expires_at,max_nodes,products(edition)").eq("user_id",user.id),
+sb.from("subscriptions").select("status,interval,current_period_end,created_at").eq("user_id",user.id).neq("status","incomplete").order("created_at",{ascending:false}).limit(1),
+sb.from("nodes").select("id,project,name,edition,status,version,last_seen_at").eq("user_id",user.id).order("created_at"),
+sb.from("downloads").select("created_at,software_releases(version,os)").eq("user_id",user.id).order("created_at",{ascending:false}).limit(8),
+sb.from("support_tickets").select("subject,status,staff_reply,created_at").eq("user_id",user.id).order("created_at",{ascending:false}).limit(10)]);
+const L=lic.data?.find(x=>x.products?.edition==="premium"),B=lic.data?.find(x=>x.products?.edition==="basic"),S=sub.data?.[0],active=L&&L.status==="active"&&new Date(L.expires_at)>new Date();
+const NL=(nodes.data||[]).filter(n=>n.status!=="revoked"),nb=NL.filter(n=>n.edition==="basic").length,np=NL.length-nb,cap=B?.max_nodes??5;
+const up=`<button class="btn" data-act="checkout" data-i="month">Monthly</button> <button class="btn" data-act="checkout" data-i="year">Yearly</button>`;
+let st;
+if(active)st=`<span class="pill ok">Premium active</span><p>Premium access until <b>${fmt(L.expires_at)}</b>.${S?.status==="canceled"?` Your subscription is canceled and will not renew.`:""}</p>${S?.status==="active"?`<button class="btn ghost" data-act="cancel">Cancel subscription</button>`:up}`;
+else if(L)st=`<span class="pill bad">Premium ${esc(L.status)}</span><p>${L.status==="suspended"?"This license is suspended. Please open a support request.":`Premium access ended ${fmt(L.expires_at)}. You no longer receive new Premium downloads or updates, and Premium-only features are locked. Subscribe again to restore everything.`}</p>${L.status==="suspended"?"":up}<p><a href="#/download">Use Basic — always free</a></p>`;
+else st=`<span class="pill">Basic</span><p>You’re on the free Basic edition.</p>${up}`;
+main(`<h1>Dashboard</h1><div class="grid"><div class="card"><h3>Account</h3><p>${esc(prof.data?.display_name||"")}<br><span class="mut">${esc(user.email)}</span></p><button class="btn ghost" data-act="out">Sign out</button></div>
+<div class="card"><h3>Subscription</h3>${st}</div></div>
+<div class="card"><h3>License</h3><p class="mut">Your FreedomLink engine needs a current license file to use YouTube and other licensed features. Download it any time and save it next to the engine as <code>license.json</code>, replacing the old one. ${active?"Your Premium license has no end date while your subscription is active.":"Basic licenses are issued for a set period. When yours ends, download a new one to keep using licensed features."} Basic includes up to ${cap} engines; Premium has no limit.</p><button class="btn" data-act="getlic">Get my license</button></div>
+<div class="card wrap"><h3>Engines</h3><p class="mut">Basic: ${nb} of ${cap} in use · Premium: ${np} in use (no limit). Each engine needs its own key, and a key works on one machine at a time.</p>${NL.length?Object.entries(NL.reduce((g,n)=>{const k=n.project||n.name;(g[k]=g[k]||[]).push(n);return g},{})).map(([pj,list])=>`<h4 style="margin:16px 0 4px">${esc(pj)} <span class="mut">· ${list.length} engine${list.length>1?"s":""}</span></h4><table><tr><th>Engine</th><th>Edition</th><th>Status</th><th>Version</th><th>Last seen</th><th></th></tr>${list.map(n=>`<tr><td>${esc(n.name)}</td><td>${n.edition}</td><td>${n.status}</td><td>${esc(n.version||"—")}</td><td>${fmt(n.last_seen_at)}</td><td><button class="btn ghost" data-act="rmnode" data-id="${esc(n.id)}">Remove</button></td></tr>`).join("")}</table>`).join(""):`<p class="mut">No engines registered yet.</p>`}
+<form data-form="node" style="max-width:460px;margin-top:12px"><input name="project" list="projects" placeholder="Project (one per bot), e.g. My Music Bot" maxlength="80" required><datalist id="projects">${[...new Set(NL.map(n=>n.project||n.name))].map(x=>`<option value="${esc(x)}">`).join("")}</datalist><input name="name" placeholder="Engine label (optional)" maxlength="80"><select name="edition"><option value="basic">Basic</option><option value="premium">Premium</option></select><button class="btn">Add engine</button></form><div id="nodekey"></div></div>
+<div class="grid"><div class="card wrap"><h3>Download history</h3>${dls.data?.length?`<table>${dls.data.map(d=>`<tr><td>${d.software_releases?`v${esc(d.software_releases.version)} ${esc(d.software_releases.os)}`:`<span class="mut">Premium release (not available on your current plan)</span>`}</td><td>${fmt(d.created_at)}</td></tr>`).join("")}</table>`:`<p class="mut">No downloads yet. <a href="#/download">Go to the Download Center</a></p>`}</div>
+<div class="card wrap"><h3>Payment history</h3><div id="hist">${S?`<button class="btn ghost" data-act="hist">Load payment history</button>`:`<p class="mut">No payments yet.</p>`}</div></div></div><div class="card"><h3>Support</h3><form data-form="ticket" style="max-width:520px"><input name="subject" placeholder="Subject" minlength="3" maxlength="200" required><textarea name="body" placeholder="How can we help?" rows="4" required style="width:100%;padding:10px;margin:6px 0 12px;border-radius:8px;border:1px solid var(--line);background:#0e1220;color:var(--txt);font:inherit"></textarea><button class="btn">Send request</button></form>
+${tix.data?.map(t=>`<p><span class="pill">${t.status}</span> <b>${esc(t.subject)}</b> <span class="mut">${fmt(t.created_at)}</span>${t.staff_reply?`<br><span class="ok">Reply:</span> ${esc(t.staff_reply)}`:""}</p>`).join("")||""}</div>`)}
+
+
+async function changelog(){main(`<h1>Changelog</h1><p class="mut">Loading…</p>`);
+const{data,error}=await sb.from("software_releases").select("version,os,arch,release_notes,published_at,release_channels(kind,products(edition))").eq("published",true).order("published_at",{ascending:false});
+if(error)return main(`<h1>Changelog</h1><p class="bad">Could not load releases.</p>`);
+const by=e=>(data||[]).filter(r=>r.release_channels.products.edition===e);
+const col=(e,t)=>`<h2>${t}</h2>${by(e).map(r=>`<div class="card"><span class="pill">${r.release_channels.kind}</span> <b>v${esc(r.version)}</b> <span class="mut">${esc(r.os)}/${esc(r.arch)} · ${fmt(r.published_at)}</span>${r.release_notes?`<pre>${esc(r.release_notes)}</pre>`:`<p class="mut">No release notes.</p>`}</div>`).join("")||`<p class="mut">No releases published yet.</p>`}`;
+main(`<h1>Changelog and version history</h1>${col("basic","Basic")}${col("premium","Premium")}<p class="mut">Premium releases are listed for accounts with an active Premium subscription.</p>`)}
+
+function docs(){const A=CFG.url+"/functions/v1",c=t=>`<pre class="c">${esc(t)}</pre>`;
+main(`<div class="doc"><h1>Documentation</h1>
+<div class="card" id="d1"><h3>1. Getting started</h3><ol><li>Create a free account (<a href="#/login">Sign in, then Create account</a>) and confirm your email.</li>
+<li>Open the <a href="#/download">Download Center</a>, choose a release for your system and press Download. Links expire after 60 seconds; press the button again for a fresh one.</li>
+<li>Check the file against the SHA-256 shown on its release card:</li></ol>${c("Linux / macOS:        sha256sum <file>\nWindows (PowerShell): Get-FileHash <file> -Algorithm SHA256")}</div>
+
+<div class="card" id="d2"><h3>2. Registering a node</h3><p>In the <a href="#/dashboard">Dashboard</a>, enter a project name (one project per bot) and press Add engine. You get a node key plus ready-made <code>application.yml</code> and <code>license.json</code> files with your name and key already in them. The node key is shown <b>once</b>; only a hash is stored, so a lost key cannot be recovered. Register a new node if you lose it. Your license allows up to <b>5 engines</b> on Basic and <b>unlimited</b> engines on Premium. Each engine needs its own node key, and a key works on one machine at a time. Remove engines you no longer use from your dashboard to free a slot, and put the key in the engine’s <code>application.yml</code> as <code>FreedomLink.server.license.nodeKey</code>.</p>
+<p>A running node reports its health by sending a heartbeat with its key, about every 30 seconds (limit: 12 per minute per node):</p>
+${c(`curl -X POST ${A}/node-heartbeat \\\n  -H "x-node-key: fln_your_key" -H "content-type: application/json" \\\n  -d '{"players":3,"playing_players":2,"cpu_load":12.5,"memory_used_mb":512,"uptime_seconds":3600,"version":"1.0.1"}'`)}
+<p>The response is the node’s authoritative license state:</p>
+${c(`{"ok":true,"next_heartbeat_seconds":30,\n "entitlement":{"node_edition":"premium","premium_active":false,"license_status":"expired",\n   "expires_at":"2026-12-01T00:00:00Z","premium_features_locked":true},\n "message":"…","restore_url":"…"}`)}
+<p>When <code>premium_features_locked</code> is <code>true</code>, a Premium node must disable Premium-only features. Everything else keeps working.</p></div>
+
+<div class="card"><h3>Several engines in one bot</h3><p>A project is one bot. Give every engine of that bot the same project name; you can add up to 5 on Basic and any number on Premium. Each engine has its own key and runs on its own machine, so adding another never changes or interrupts the ones already running. In your bot, list each engine (its address, port 2333 and the password from its <code>application.yml</code>) in your client library’s node list. If your Lavalink-compatible client supports several nodes, it can spread players across them and fail over when one goes down.</p></div>
+<div class="card" id="d3"><h3>3. Checking for updates</h3><p>Basic update checks are public. Premium information needs the node key (or a signed-in session).</p>
+${c(`curl "${A}/check-update?edition=basic&channel=stable&os=linux&arch=x64&current=1.0.1"\ncurl -H "x-node-key: fln_your_key" "${A}/check-update?edition=premium&channel=stable&os=linux&arch=x64&current=1.2.0"`)}
+<p>The reply has a <code>basic</code> block and a <code>premium</code> block. Each <code>latest</code> release includes its <code>id</code>, <code>version</code>, notes and SHA-256; <code>update_available</code> compares against <code>current</code>. The <code>premium.status</code> is <code>active</code>, <code>expired</code>, <code>never</code> or <code>anonymous</code>, and expired accounts get a message explaining how to restore Premium. Channel <code>beta</code> returns the newest of the beta and stable releases.</p>
+<p>To download a release, send its <code>id</code>; you receive a link valid for 60 seconds:</p>${c(`curl -X POST ${A}/download -H "x-node-key: fln_your_key" \\\n  -H "content-type: application/json" -d '{"release_id":"<id>"}'`)}</div>
+
+<div class="card" id="d4"><h3>4. Basic and Premium</h3><ul>
+<li><b>Upgrade:</b> choose a plan on <a href="#/pricing">Pricing</a>, approve it in PayPal, and you return to your dashboard, where Premium switches on once PayPal confirms the subscription.</li>
+<li><b>Cancel:</b> Dashboard, then Cancel subscription. Premium stays active until the end of the period you paid for.</li>
+<li><b>When Premium ends</b> (cancelled, expired, or payments failed): new Premium downloads and updates are blocked and Premium-only features lock. Software you already installed is never removed or damaged.</li>
+<li><b>Basic never stops:</b> Basic downloads and updates are free and unaffected by any past subscription.</li>
+<li><b>Resubscribe:</b> the same license is reactivated, so your Premium downloads, updates and nodes come straight back.</li>
+<li><b>Moving to Basic:</b> download the Basic build from the Download Center. Your account and node registrations stay in place.</li></ul></div>
+
+<div class="card"><h3>License file</h3><ul><li>Licensed features, such as YouTube, need a current <code>license.json</code> next to the engine (the path is <code>FreedomLink.server.license.path</code>).</li><li>Every download includes a freshly signed license, and you can get a new one from your dashboard at any time.</li><li>Basic licenses cover a set period. When it ends, licensed features stop until you replace the file; the engine notices the new file automatically, with no restart.</li><li>Premium licenses have no end date while your subscription is active.</li><li>The engine checks in with the site about every 30 seconds. If the site can’t be reached it keeps working for up to 7 days, then licensed features pause until it reconnects.</li><li>The engine reports its license state at <code>GET /v4/license</code> (same password as its other routes).</li></ul>
+${c(`curl -X POST ${A}/license -H "x-node-key: fln_your_key" -H "content-type: application/json" -d '{}'`)}</div>
+<div class="card wrap" id="d5"><h3>5. Troubleshooting</h3><table><tr><th>Error</th><th>HTTP</th><th>Meaning and fix</th></tr>
+<tr><td><code>unauthenticated</code></td><td>401</td><td>Sign in again, or send a valid node key.</td></tr>
+<tr><td><code>invalid_node_key</code></td><td>401</td><td>The key is wrong or the node was revoked. Register a new node.</td></tr>
+<tr><td><code>premium_required</code></td><td>403</td><td>No active Premium license. The reply includes a restore link; Basic is always available.</td></tr>
+<tr><td><code>node_limit_reached</code></td><td>403</td><td>You are at your node limit. Ask an administrator to revoke unused nodes.</td></tr>
+<tr><td><code>account_suspended</code></td><td>403</td><td>Open a support request from the dashboard.</td></tr>
+<tr><td><code>release_not_found</code></td><td>404</td><td>The release is unpublished or not available to your account.</td></tr>
+<tr><td><code>already_subscribed</code></td><td>409</td><td>You already have an active subscription. Cancel it before starting another.</td></tr>
+<tr><td><code>rate_limited</code></td><td>429</td><td>Too many requests. Wait and retry.</td></tr></table>
+<p class="mut">Still stuck? Send a request from the Support card on your dashboard.</p></div>
+
+<div class="card" id="d6"><h3>6. FAQ</h3>
+<p><b>Is Basic really free?</b><br>Yes. Free account, free downloads, free updates, with no subscription ever required.</p>
+<p><b>What happens if my Premium expires?</b><br>You lose Premium downloads, updates and Premium-only features. You can switch to Basic at any time, and resubscribing restores Premium.</p>
+<p><b>Will my installed software stop working?</b><br>No. Nothing is deleted or disabled remotely; only Premium-only features that need an active license lock.</p>
+<p><b>How do I pay?</b><br>Subscriptions are billed through PayPal. You can cancel from your dashboard or from your PayPal account.</p></div></div>`)}
+
+const P=(t,h)=>main(`<div class="doc"><h1>${t}</h1>${h}</div>`);
+const about=()=>P("About FreedomLink",`<div class="card"><p>FreedomLink is an independently hosted audio backend and the platform around it: accounts, secure downloads, update channels, node monitoring, and an optional Premium subscription.</p><p>It is built to be a powerful, independent alternative to Lavalink. The audio engine runs on your own server; this website manages accounts, licenses, releases and nodes, and never processes your audio.</p><p><a class="btn" href="#/download">Download Basic</a></p></div>`);
+const features=()=>P("Features",`<div class="grid"><div class="card"><h3>Free Basic edition</h3><p class="mut">Free account, downloads and updates with no subscription ever required.</p></div>
+<div class="card"><h3>Secure downloads</h3><p class="mut">Every download is authorized on the server, delivered by a link that expires in 60 seconds, and comes with a SHA-256 checksum.</p></div>
+<div class="card"><h3>Separate update channels</h3><p class="mut">Basic and Premium have their own stable and beta channels. Basic updates are never blocked.</p></div>
+<div class="card"><h3>Node management</h3><p class="mut">Register nodes, see their health and last check-in, and manage them from one dashboard.</p></div>
+<div class="card"><h3>Server-side licensing</h3><p class="mut">Premium access is decided by the server, not the browser. Expired licenses lock Premium features without touching installed software.</p></div>
+<div class="card"><h3>Audit trail</h3><p class="mut">Denied downloads, bad requests and administrative changes are recorded.</p></div></div>
+<p class="mut">Audio engine capabilities are described in each release’s notes. See the <a href="#/changelog">Changelog</a>.</p>`);
+const basic=()=>P("Basic Edition",`<div class="card"><p>Basic is <b>completely free</b> and always will be.</p><ul><li>Create a free account</li><li>Download FreedomLink Basic</li><li>Installation, node and API documentation</li><li>Basic updates, changelog and version history</li><li>Support requests from your dashboard</li></ul><p class="mut">Basic never requires a subscription, and having once subscribed to Premium never blocks Basic updates.</p><a class="btn" href="#/login">Create free account</a> <a class="btn ghost" href="#/download">Download Center</a></div>`);
+const premium=()=>P("Premium Edition",`<div class="card"><p>Premium is an optional subscription with its own release channel, builds and updates.</p><ul><li>Premium downloads and update releases</li><li>Premium-only features, listed in each Premium release’s notes once shipped and verified</li><li>Cancel any time; Basic remains free</li></ul><p class="mut">If Premium ends, Premium downloads, updates and Premium-only features lock. Installed software is never removed. Resubscribing restores everything.</p>
+<button class="btn" data-act="checkout" data-i="month">Monthly</button> <button class="btn" data-act="checkout" data-i="year">Yearly</button> <a class="btn ghost" href="#/pricing">Compare editions</a></div>`);
+async function support(){if(!user)return P("Support Center",`<div class="card"><p>Please <a href="#/login">sign in</a> to send a support request. Answers to common questions are in the <a href="#/faq">FAQ</a> and <a href="#/docs">Documentation</a>.</p></div>`);
+const{data}=await sb.from("support_tickets").select("subject,status,staff_reply,created_at").eq("user_id",user.id).order("created_at",{ascending:false}).limit(10);
+P("Support Center",`<div class="card"><form data-form="ticket" style="max-width:520px"><input name="subject" placeholder="Subject" minlength="3" maxlength="200" required><textarea name="body" placeholder="How can we help?" rows="4" required></textarea><button class="btn">Send request</button></form></div>
+<div class="card"><h3>Your requests</h3>${(data||[]).map(t=>`<p><span class="pill">${t.status}</span> <b>${esc(t.subject)}</b> <span class="mut">${fmt(t.created_at)}</span>${t.staff_reply?`<br><span class="ok">Reply:</span> ${esc(t.staff_reply)}`:""}</p>`).join("")||`<p class="mut">No requests yet.</p>`}</div>`)}
+const privacy=()=>P("Privacy Policy",`<div class="card"><p class="mut">Describes how this platform handles data.</p>
+<h3>What we collect</h3><ul><li><b>Account:</b> email address and display name. Passwords are handled by our authentication provider and stored hashed.</li><li><b>Subscription and license records:</b> plan, status and dates. Payments are processed by PayPal; we never see your payment credentials.</li><li><b>Downloads:</b> which releases you downloaded, plus IP address and browser/user-agent for security and abuse prevention.</li><li><b>Nodes:</b> the name you give a node and the health data it reports (version, player counts, CPU and memory load, uptime). No audio content is collected.</li><li><b>Support requests</b> you send us.</li><li><b>Security and audit logs:</b> denied requests, rate-limit events and administrative actions, including IP address.</li></ul>
+<h3>Where it is stored</h3><p>In our Supabase project (database, authentication, file storage and server functions). Payments run through PayPal.</p>
+<h3>Cookies and tracking</h3><p>No advertising or tracking cookies. Your browser stores only your sign-in session.</p>
+<h3>Retention</h3><p>Node heartbeats are deleted after 7 days. Audit logs and account records are kept while needed for security and billing. You can ask us to delete your account from the Support Center.</p>
+<h3>Your choices</h3><p>You can request access to, correction of, or deletion of your data through the <a href="#/support">Support Center</a>. We will update this policy when our practices change.</p></div>`);
+const terms=()=>P("Terms of Service",`<div class="card"><h3>1. Editions</h3><p>FreedomLink Basic is free and requires no subscription. FreedomLink Premium is a paid subscription.</p>
+<h3>2. Subscriptions and billing</h3><p>Premium is billed monthly or annually through PayPal and renews automatically until cancelled. You can cancel from your dashboard or PayPal account; Premium then stays active until the end of the period you paid for. Refund requests are handled through the Support Center.</p>
+<h3>3. When Premium ends</h3><p>If your subscription ends, is cancelled, or payment fails, your Premium license becomes inactive: you lose access to new Premium downloads, Premium updates and Premium-only features. Previously downloaded software is never remotely deleted or damaged. Basic downloads and updates remain free, and resubscribing restores Premium access.</p>
+<h3>4. Acceptable use</h3><p>Do not circumvent or tamper with license checks, share node keys, abuse our APIs beyond the published rate limits, or attempt unauthorized access. We may suspend accounts, licenses or nodes that do, and such events are logged.</p>
+<h3>5. Software provided as is</h3><p>The software and services are provided “as is”, without warranties of any kind, to the extent permitted by law. To the extent permitted by law, we are not liable for indirect or consequential losses.</p>
+<h3>6. Changes</h3><p>We may update these terms; continued use after changes means you accept them. Questions? Use the <a href="#/support">Support Center</a>.</p></div>`);
+
+// ---- Web Player: YouTube privacy-enhanced embed (youtube-nocookie.com), queue kept in this browser ----
+let ytp=null,tick=null,Q={items:[],i:-1,repeat:false,shuffle:false};
+try{const q=JSON.parse(localStorage.getItem("fl_queue")||"null");if(q&&Array.isArray(q.items))Q=Object.assign(Q,q)}catch{}
+const qSave=()=>{try{localStorage.setItem("fl_queue",JSON.stringify(Q))}catch{}};
+const ytId=t=>{t=String(t||"").trim();if(/^[\w-]{11}$/.test(t))return t;try{const u=new URL(t);if(/(^|\.)youtu\.be$/.test(u.hostname))return u.pathname.slice(1,12);const v=u.searchParams.get("v");if(v&&/^[\w-]{11}$/.test(v))return v;const m=u.pathname.match(/\/(shorts|embed|live)\/([\w-]{11})/);if(m)return m[2]}catch{}return null};
+const loadYT=()=>window.YT&&YT.Player?Promise.resolve():new Promise((res,rej)=>{window.onYouTubeIframeAPIReady=res;const t=document.createElement("script");t.src="https://www.youtube.com/iframe_api";t.onerror=()=>rej(new Error("Couldn’t load the YouTube player (is the network blocked?)"));document.head.appendChild(t)});
+function renderQ(){const l=$("#ql");if(!l)return;
+ l.innerHTML=Q.items.map((it,i)=>`<div class="qi${i===Q.i?" cur":""}"><button class="qt" data-act="plplay" data-i="${i}">${i===Q.i?"▶ ":""}${esc(it.title)}</button><button class="x" data-act="plrm" data-i="${i}" aria-label="Remove">×</button></div>`).join("")||`<p class="mut">The queue is empty. Paste a YouTube link above.</p>`;
+ $("#plrepeat")?.classList.toggle("on",Q.repeat);$("#plshuffle")?.classList.toggle("on",Q.shuffle)}
+const plPlay=i=>{const it=Q.items[i];if(!it)return;Q.i=i;if(ytp&&ytp.loadVideoById)ytp.loadVideoById(it.id);qSave();renderQ()};
+const plNext=()=>{const n=Q.items.length;if(!n)return;let i;if(Q.shuffle&&n>1){do{i=Math.floor(Math.random()*n)}while(i===Q.i)}else i=Q.i+1;if(i>=n){if(Q.repeat)i=0;else return}plPlay(i)};
+const plPrev=()=>{if(!Q.items.length)return;if(ytp?.getCurrentTime?.()>3)return ytp.seekTo(0,true);plPlay(Math.max(0,Q.i-1))};
+function plAdd(text){const ids=String(text||"").split(/[\s,]+/).filter(Boolean);if(!ids.length)return;let added=0;
+ for(const t of ids){const id=ytId(t);if(!id){toast(/[?&]list=/.test(t)&&!/[?&]v=/.test(t)?"Playlist-only links aren’t supported. Paste individual video links.":"That doesn’t look like a YouTube video link.");continue}Q.items.push({id,title:id});added++}
+ if(added){qSave();renderQ();if(Q.i<0||!ytp||ytp.getPlayerState?.()===-1||ytp.getPlayerState?.()===5)plPlay(Q.i<0?0:Q.items.length-added)}}
+function mountPlayer(){if(!$("#yt"))return;
+ ytp=new YT.Player("yt",{host:"https://www.youtube-nocookie.com",width:"100%",height:"100%",playerVars:Object.assign({playsinline:1,rel:0,modestbranding:1},location.protocol.startsWith("http")?{origin:location.origin}:{}),events:{
+  onReady:()=>{ytp.setVolume(+($("#vol")?.value||80));if(Q.items[Q.i])ytp.cueVideoById(Q.items[Q.i].id)},
+  onStateChange:e=>{const b=$("#pltoggle");if(e.data===0)plNext();if(b)b.textContent=e.data===1?"⏸":"▶";
+   if(e.data===1){const d=ytp.getVideoData?.(),it=Q.items[Q.i];if(it&&d?.title&&it.title!==d.title){it.title=d.title;qSave();renderQ()}}},
+  onError:()=>{toast("That video can’t be played here. Skipping it.");plNext()}}});
+ tick=setInterval(()=>{const sk=$("#seek");if(!ytp?.getDuration||!sk)return;const d=ytp.getDuration()||0,c=ytp.getCurrentTime()||0;
+  if(document.activeElement!==sk)sk.value=d?Math.round(c/d*1000):0;const f=x=>Math.floor(x/60)+":"+String(Math.floor(x%60)).padStart(2,"0");$("#tm").textContent=f(c)+" / "+f(d)},500)}
+async function player(){main(`<h1>Web Player</h1><p class="mut">Play YouTube videos right here using YouTube’s privacy-enhanced embed (youtube-nocookie.com). The queue is saved in this browser. This is a standalone player and doesn’t control your servers.</p>
+<div class="pl"><div><div class="vid"><div id="yt"></div></div><div class="card ctl"><div class="row"><button class="btn ghost" data-act="plprev" aria-label="Previous">⏮</button><button class="btn" id="pltoggle" data-act="pltoggle" aria-label="Play or pause">▶</button><button class="btn ghost" data-act="plnext" aria-label="Next">⏭</button><button class="btn ghost" id="plrepeat" data-act="plrepeat">Repeat</button><button class="btn ghost" id="plshuffle" data-act="plshuffle">Shuffle</button></div>
+<input type="range" id="seek" min="0" max="1000" value="0" aria-label="Seek"><div class="row"><span id="tm" class="mut">0:00 / 0:00</span><label class="mut" style="margin-left:auto">Volume <input type="range" id="vol" min="0" max="100" value="80" style="width:120px;display:inline-block"></label></div></div></div>
+<div class="card"><h3>Queue</h3><form data-form="pladd"><input name="url" placeholder="Paste YouTube video links" required><button class="btn">Add to queue</button> <button type="button" class="btn ghost" data-act="plclear">Clear</button></form><div id="ql"></div></div></div>`);
+ renderQ();try{await loadYT();mountPlayer()}catch(e){toast(e.message)}}
+
+const saveFile=(name,text,type="application/json")=>{const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([text],{type}));a.download=name;document.body.appendChild(a);a.click();a.remove()};
+const saveLicense=l=>saveFile("license.json",JSON.stringify(l,null,2));
+let lastSetup=null;
+const engineYml=(r,pw)=>`# FreedomLink engine: ${r.project} / ${r.name}
+server:
+  port: 2333
+  address: 0.0.0.0
+FreedomLink:
+  server:
+    password: "${pw}"
+    license:
+      path: "./license.json"
+      nodeKey: "${r.node_key}"
+`;
+
+// ---- Actions ----
+const acts={
+async checkout(b){if(!user){go("/login");return toast("Sign in first, then choose a plan.")}const r=await call("billing",{action:"checkout",interval:b.dataset.i});location.href=r.url},
+async cancel(){if(!confirm("Cancel your subscription? Premium stays active until the end of the period you paid for."))return;const r=await call("billing",{action:"cancel"});toast(r.message);route()},
+async dl(b){if(!user){go("/login");return toast("Sign in with a free account to download.")}
+try{const r=await call("download",{release_id:b.dataset.id});if(r.license)saveLicense(r.license);else if(r.license_error)toast("Download started, but a license couldn’t be issued: "+r.license_error);setTimeout(()=>{location.href=r.url},300)}catch(e){toast(e.info?.message||e.message);if(e.info?.restore_url)go("/dashboard")}},
+async hist(){const r=await call("billing",{action:"history"});$("#hist").innerHTML=r.transactions.length?`<table>${r.transactions.map(t=>`<tr><td>${fmt(t.time)}</td><td>${esc(t.amount)} ${esc(t.currency)}</td><td>${esc(t.status)}</td></tr>`).join("")}</table>`:`<p class="mut">No payments yet.</p>`},
+mode(b){authMode=b.dataset.m;login()},
+async setup(){if(!lastSetup)return;const r=await call("license",{edition:lastSetup.edition});saveLicense(r.license);setTimeout(()=>saveFile("application.yml",lastSetup.yml,"text/yaml"),400);toast("Saved license.json and application.yml. Put both next to your FreedomLink jar.")},
+async getlic(){const r=await call("license",{});saveLicense(r.license);toast("License saved as license.json ("+r.edition+", "+(r.expires_at?"valid until "+fmt(r.expires_at):"no end date")+"). Put it next to your engine.")},
+menu(){document.querySelector("header").classList.toggle("open")},
+async rmnode(b){if(!confirm("Remove this engine? Its key stops working and its slot is freed."))return;const r=await sb.from("nodes").update({status:"revoked"}).eq("id",b.dataset.id);if(r.error)throw new Error(r.error.message);toast("Engine removed.");route()},
+plprev:()=>plPrev(),plnext:()=>plNext(),plplay:b=>plPlay(+b.dataset.i),
+pltoggle(){if(!ytp?.getPlayerState)return;if(Q.i<0&&Q.items.length)return plPlay(0);ytp.getPlayerState()===1?ytp.pauseVideo():ytp.playVideo()},
+plrepeat(){Q.repeat=!Q.repeat;qSave();renderQ()},plshuffle(){Q.shuffle=!Q.shuffle;qSave();renderQ()},
+plrm(b){const i=+b.dataset.i,cur=i===Q.i;Q.items.splice(i,1);if(i<Q.i)Q.i--;if(cur){if(Q.items.length)plPlay(Math.min(i,Q.items.length-1));else{Q.i=-1;ytp?.stopVideo?.()}}qSave();renderQ()},
+plclear(){Q.items=[];Q.i=-1;ytp?.stopVideo?.();qSave();renderQ()},
+async out(){await sb.auth.signOut()}};
+document.addEventListener("input",e=>{if(!ytp)return;if(e.target.id==="seek"){const d=ytp.getDuration?.()||0;ytp.seekTo(d*e.target.value/1000,true)}if(e.target.id==="vol")ytp.setVolume?.(+e.target.value)});
+document.addEventListener("click",async e=>{const b=e.target.closest("[data-act]");if(!b)return;e.preventDefault();b.disabled=true;
+try{await acts[b.dataset.act](b)}catch(err){toast(err.message)}finally{b.disabled=false}});
+document.addEventListener("submit",async e=>{const f=e.target.closest("[data-form]");if(!f)return;e.preventDefault();const d=Object.fromEntries(new FormData(f)),btn=f.querySelector("button");btn.disabled=true;
+try{
+if(f.dataset.form==="auth"){
+ if(authMode==="in"){const{error}=await sb.auth.signInWithPassword({email:d.email,password:d.pw});if(error)throw error}
+ else if(authMode==="up"){const{data,error}=await sb.auth.signUp({email:d.email,password:d.pw,options:{data:{display_name:d.name||""},emailRedirectTo:location.origin+location.pathname}});if(error)throw error;if(!data.session)toast("Check your email to confirm your account, then sign in.")}
+ else{const{error}=await sb.auth.resetPasswordForEmail(d.email,{redirectTo:location.origin+location.pathname});if(error)throw error;toast("If that email has an account, a reset link is on its way.")}}
+else if(f.dataset.form==="newpw"){const{error}=await sb.auth.updateUser({password:d.pw});if(error)throw error;recovery=false;toast("Password updated.");go("/dashboard")}
+else if(f.dataset.form==="ticket"){const{error}=await sb.from("support_tickets").insert({user_id:user.id,subject:d.subject,body:d.body});if(error)throw error;toast("Request sent. We’ll reply here.");route();return}
+else if(f.dataset.form==="pladd"){plAdd(d.url);f.reset()}
+else if(f.dataset.form==="node"){const r=await call("node-register",{project:d.project,name:d.name||undefined,edition:d.edition});
+ const pw=Array.from(crypto.getRandomValues(new Uint8Array(16)),x=>x.toString(16).padStart(2,"0")).join("");
+ lastSetup={edition:r.edition,yml:engineYml(r,pw)};
+ $("#nodekey").innerHTML=`<p><b>Engine created:</b> ${esc(r.project)} / ${esc(r.name)}. The key is shown once, so keep these settings:</p><pre class="c">${esc(lastSetup.yml)}</pre><button class="btn" data-act="setup">Download setup files</button> <span class="mut">application.yml and license.json, ready to put next to the jar. Your bot connects with the password in application.yml.</span>`;f.reset()}
+}catch(err){toast(err.info?.message||err.message)}finally{btn.disabled=false}});
+
+// ---- Admin (all access is enforced by database Row Level Security, not by this page) ----
+const Admin=(()=>{
+
+const fmt=d=>d?new Date(d).toLocaleString():"—",sid=i=>esc(String(i||"").slice(0,8));
+let me,tab="users",kbDocs=[];
+const names=async()=>Object.fromEntries(((await sb.from("profiles").select("id,display_name").limit(1000)).data||[]).map(p=>[p.id,p.display_name||sid(p.id)]));
+const cnt=async q=>(await q).count??0,head=t=>sb.from(t).select("id",{count:"exact",head:true});
+const pane=h=>$("#pane").innerHTML=h;
+const chk=r=>{if(r.error)throw new Error(r.error.message);return r};
+
+async function render(){
+ if(!user)return main(`<div class="card">Please <a href="#/login">sign in</a> first.</div>`);
+ const{data:p}=await sb.from("profiles").select("role").eq("id",user.id).single();
+ if(p?.role!=="admin")return main(`<div class="card bad">Not authorized. This area is for administrators.</div>`);
+ me=user;
+ const[u,pl,ok,den]=await Promise.all([cnt(head("profiles")),cnt(head("licenses").eq("status","active").gt("expires_at",new Date().toISOString())),
+  cnt(head("download_logs").eq("outcome","success")),cnt(head("download_logs").eq("outcome","denied"))]);
+ const st=(n,l)=>`<div class="card"><div class="big">${n}</div><span class="mut">${l}</span></div>`;
+ main(`<h1>Admin</h1><div class="grid">${st(u,"Registered users")}${st(pl,"Active Premium licenses")}${st(ok,"Downloads served")}${st(den,"Downloads denied")}</div>
+ <div class="tabs">${["users","licenses","releases","nodes","support","audit","license","ai","knowledge","system"].map(t=>`<button class="btn ghost" data-atab="${t}">${t[0].toUpperCase()+t.slice(1)}</button>`).join("")}</div><div id="pane"></div>`);
+ show(tab)}
+async function show(t){tab=t;document.querySelectorAll("[data-atab]").forEach(b=>b.classList.toggle("on",b.dataset.atab===t));pane(`<p class="mut">Loading…</p>`);
+ try{await T[t]()}catch(e){pane(`<p class="bad">${esc(e.message)}</p>`)}}
+
+const T={
+async users(){const{data}=chk(await sb.from("profiles").select("id,display_name,role,suspended,created_at").order("created_at",{ascending:false}).limit(200));
+ pane(`<div class="card wrap"><table><tr><th>Name</th><th>ID</th><th>Role</th><th>Status</th><th>Joined</th></tr>${data.map(p=>`<tr><td>${esc(p.display_name)}</td><td><code>${sid(p.id)}</code></td>
+ <td><select data-achg="role" data-id="${p.id}" ${p.id===me.id?"disabled":""}>${["user","support","admin"].map(r=>`<option ${r===p.role?"selected":""}>${r}</option>`).join("")}</select></td>
+ <td>${p.suspended?`<span class="bad">suspended</span>`:"active"} ${`<button class="btn ghost" data-aact="grant" data-id="${p.id}">Grant Premium</button> `}${p.id===me.id?"":`<button class="btn ghost" data-aact="susp" data-id="${p.id}" data-v="${!p.suspended}">${p.suspended?"Reinstate":"Suspend"}</button>`}</td><td>${fmt(p.created_at)}</td></tr>`).join("")}</table></div>
+ <p class="mut">Showing up to 200 users. Emails live in Supabase Auth and are not exposed to this page.</p>`)},
+async licenses(){const[{data},n]=await Promise.all([sb.from("licenses").select("id,user_id,status,expires_at,max_nodes,suspended_reason,products(edition)").order("created_at",{ascending:false}).limit(200).then(chk),names()]);
+ pane(`<div class="card wrap"><table><tr><th>User</th><th>Edition</th><th>Status</th><th>Expires</th><th>Engines</th><th>Actions</th></tr>${data.map(l=>`<tr><td>${esc(n[l.user_id])}</td><td>${esc(l.products?.edition)}</td>
+ <td>${l.status==="active"?`<span class="ok">active</span>`:`<span class="bad">${l.status}</span>`}${l.suspended_reason?`<br><span class="mut">${esc(l.suspended_reason)}</span>`:""}</td><td>${l.expires_at?fmt(l.expires_at):"—"}</td><td>${l.max_nodes??"unlimited"}</td>
+ <td>${l.status==="suspended"?`<button class="btn ghost" data-aact="lun" data-id="${l.id}" data-exp="${l.expires_at||""}">Reinstate</button>`:`<button class="btn ghost" data-aact="lsus" data-id="${l.id}">Suspend</button>`}
+ ${l.products?.edition==="premium"?`<button class="btn ghost" data-aact="lexp" data-id="${l.id}">Set expiry</button>`:""} <button class="btn ghost" data-aact="lnodes" data-id="${l.id}">Max engines</button></td></tr>`).join("")||`<tr><td colspan="6" class="mut">No licenses yet. They appear automatically when a subscription is paid.</td></tr>`}</table></div>`)},
+async releases(){const{data}=chk(await sb.from("software_releases").select("id,version,os,arch,published,published_at,file_size,release_channels(kind,products(edition))").order("created_at",{ascending:false}).limit(200));
+ const o=a=>a.map(x=>`<option>${x}</option>`).join("");
+ pane(`<div class="card"><b>Publish a release</b><form data-aform="rel"><select name="edition">${o(["basic","premium"])}</select> <select name="channel">${o(["stable","beta"])}</select>
+ <input name="version" placeholder="1.0.0" pattern="\\d+\\.\\d+\\.\\d+(-[0-9A-Za-z.-]+)?" required> <select name="os">${o(["any","linux","windows","macos","docker"])}</select> <select name="arch">${o(["any","x64","arm64"])}</select><br>
+ <input type="file" name="file" required><br><textarea name="notes" rows="3" cols="60" placeholder="Release notes"></textarea><br><button class="btn">Upload and publish</button> <span id="relst" class="mut"></span></form>
+ <p class="mut">Published releases are immutable; bump the version to change a build. Pre-release versions (with “-”) must use the beta channel.</p></div>
+ <div class="card wrap"><table><tr><th>Edition</th><th>Channel</th><th>Version</th><th>Target</th><th>Size</th><th>Published</th><th></th></tr>${data.map(r=>`<tr><td>${r.release_channels.products.edition}</td><td>${r.release_channels.kind}</td><td>${esc(r.version)}</td><td>${r.os}/${r.arch}</td>
+ <td>${r.file_size?(r.file_size/1048576).toFixed(1)+" MB":"—"}</td><td>${r.published?fmt(r.published_at):`<span class="mut">draft</span>`}</td><td><button class="btn ghost" data-aact="pub" data-id="${r.id}" data-v="${!r.published}">${r.published?"Unpublish":"Publish"}</button></td></tr>`).join("")}</table></div>`)},
+async nodes(){const[{data},n]=await Promise.all([sb.from("nodes").select("id,user_id,project,name,edition,status,version,last_seen_at").order("last_seen_at",{ascending:false,nullsFirst:false}).limit(200).then(chk),names()]);
+ pane(`<div class="card wrap"><table><tr><th>Engine</th><th>Project</th><th>Owner</th><th>Edition</th><th>Status</th><th>Version</th><th>Last seen</th><th></th></tr>${data.map(x=>`<tr><td>${esc(x.name)}</td><td>${esc(x.project||"—")}</td><td>${esc(n[x.user_id])}</td><td>${x.edition}</td>
+ <td class="${x.status==="online"?"ok":x.status==="revoked"?"bad":""}">${x.status}</td><td>${esc(x.version||"—")}</td><td>${fmt(x.last_seen_at)}</td><td>${x.status==="revoked"?"":`<button class="btn ghost" data-aact="rev" data-id="${x.id}">Revoke</button>`}</td></tr>`).join("")||`<tr><td colspan="8" class="mut">No nodes registered yet.</td></tr>`}</table></div>`)},
+async support(){const[{data},n]=await Promise.all([sb.from("support_tickets").select("id,user_id,subject,body,status,staff_reply,created_at").order("created_at",{ascending:false}).limit(100).then(chk),names()]);
+ pane(data.map(t=>`<div class="card"><b>${esc(t.subject)}</b> <span class="mut">· ${esc(n[t.user_id])} · ${fmt(t.created_at)}</span><pre style="white-space:pre-wrap;margin:.5em 0">${esc(t.body)}</pre>
+ <textarea id="r${t.id}" rows="2" cols="60" placeholder="Reply">${esc(t.staff_reply||"")}</textarea><br><select id="s${t.id}">${["open","pending","resolved","closed"].map(s=>`<option ${s===t.status?"selected":""}>${s}</option>`).join("")}</select> <button class="btn" data-aact="tix" data-id="${t.id}">Save</button></div>`).join("")||`<div class="card mut">No support requests.</div>`)},
+async system(){const rows=[],add=(ok,n,m)=>rows.push(`<tr><td>${ok?"✅":"❌"}</td><td>${n}</td><td class="mut">${esc(m)}</td></tr>`);
+ const[pr,ch,lp]=await Promise.all([sb.from("products").select("edition"),sb.from("release_channels").select("id"),sb.from("license_policy").select("edition")]);
+ const np=(pr.data||[]).length,nc=(ch.data||[]).length;add(!pr.error&&np===2,"Database: products (Basic and Premium)",pr.error?pr.error.message+" (run migration 0001)":np+" found");
+ add(!lp.error&&(lp.data||[]).length===2,"Database: license policy (run migration 0007)",lp.error?lp.error.message:(lp.data||[]).length+" found");
+ add(!ch.error&&nc===4,"Database: release channels (4 expected)",ch.error?ch.error.message:nc+" found");
+ const base=CFG.url+"/functions/v1/";
+ for(const fn of ["paypal-webhook","billing","download","check-update","node-register","node-heartbeat","publish-release","license","agent"]){
+  try{const r=await fetch(base+fn,{method:"OPTIONS"});add(r.ok,"Function: "+fn,"deployed and reachable ("+r.status+")")}
+  catch{add(false,"Function: "+fn,"Not reachable from this page. Either it isn’t deployed under exactly this name, or the SITE_URL secret doesn’t match this page’s address ("+location.origin+").")}}
+ try{const r=await fetch(base+"check-update?edition=basic"),j=await r.json();add(r.ok&&"basic" in j,"Runtime: check-update reads the database",r.ok?"OK":(j.error||r.status))}catch(e){add(false,"Runtime: check-update","failed: "+e.message)}
+ try{const r=await call("billing",{action:"sync"});add(!!r.premium,"Runtime: billing (login and license status)","OK")}catch(e){add(false,"Runtime: billing (login and license status)",e.message+" (needs migrations 0002 and 0003 and the billing function)")}
+ add(location.protocol.startsWith("http"),"Hosting: page served over http(s)",location.origin);
+ pane(`<div class="card wrap"><table><tr><th></th><th>Check</th><th>Result</th></tr>${rows.join("")}</table></div><p class="mut">Can’t be checked from a browser: PayPal credentials, plan IDs and the webhook ID (function secrets). Test those with a PayPal Sandbox subscription, or use Grant Premium on the Users tab to test the Premium experience without paying.</p>`)},
+async license(){const[pol,iss]=await Promise.all([sb.from("license_policy").select("edition,valid_until,features").then(chk),cnt(head("license_issues").gte("issued_at",new Date(Date.now()-30*864e5).toISOString()))]);
+ pane(`<div class="card wrap"><table><tr><th>Edition</th><th>Valid until</th><th>Features</th><th></th></tr>${(pol.data||[]).map(p=>`<tr><td>${esc(p.edition)}</td><td>${p.edition==="premium"?`<span class="mut">no end date (while subscribed)</span>`:`<input type="date" id="vu" value="${esc((p.valid_until||"").slice(0,10))}">`}</td><td><input id="f${esc(p.edition)}" value="${esc((p.features||[]).join(", "))}"></td><td><button class="btn" data-aact="lsave" data-ed="${esc(p.edition)}">Save</button></td></tr>`).join("")}</table></div>
+ <p class="mut">Licenses issued in the last 30 days: ${iss}. Every download and every “Get my license” click signs a fresh file. To start a new period (for example through 2028), set the Basic date and save. Users then pick up the new period from their dashboard or by downloading again. Features are the names the engine checks, such as <code>youtube</code>.</p>`)},
+async ai(){const[cat,ac,sc]=await Promise.all([call("agent",{op:"catalog"}),
+  sb.from("agent_actions").select("id,created_at,source,action,params,status,reason,result,error").order("created_at",{ascending:false}).limit(50).then(chk),
+  sb.from("agent_schedules").select("id,name,action,every_minutes,enabled,last_run_at,next_run_at").order("name").then(chk)]);
+ const pend=(ac.data||[]).filter(a=>a.status==="pending"),col={succeeded:"ok",failed:"bad",rejected:"bad"};
+ const short=a=>esc(JSON.stringify(a.error||a.result||a.params||"")).slice(0,110);
+ pane(`<div class="card"><b>The AI and schedules are ${cat.enabled?`<span class="ok">ON</span>`:`<span class="bad">OFF</span>`}</b> <button class="btn ghost" data-aact="aikill" data-v="${!cat.enabled}">${cat.enabled?"Turn off (kill switch)":"Turn on"}</button>
+  <p class="mut">Everything the AI, a schedule or you ask for is recorded below and in the audit log. The AI can only request the actions in the list, and risky ones wait for your approval. Turning it off stops the AI and every schedule instantly; your own requests still work.</p></div>
+ ${pend.length?`<div class="card"><b>Waiting for your approval</b>${pend.map(a=>`<p>${esc(a.action)} <code>${esc(JSON.stringify(a.params))}</code> <span class="mut">from ${esc(a.source)}${a.reason?": "+esc(a.reason):""}</span><br><button class="btn" data-aact="aiok" data-id="${a.id}">Approve and run</button> <button class="btn ghost" data-aact="aino" data-id="${a.id}">Reject</button></p>`).join("")}</div>`:""}
+ <div class="card"><b>Ask the system to do something</b><form data-aform="aiask"><select name="action">${cat.actions.map(a=>`<option value="${esc(a.action)}">${esc(a.action)}${a.risk==="approval"?" (risky)":""}: ${esc(a.describe)}</option>`).join("")}</select>
+  <input name="params" style="width:100%" placeholder='Parameters as JSON, for example {"days": 7}. Leave empty if none.'><input name="reason" style="width:100%" placeholder="Why (this is recorded)"><button class="btn">Run it</button></form></div>
+ <div class="card wrap"><b>Schedules</b><table><tr><th>Name</th><th>Action</th><th>Every</th><th>Last run</th><th>Next run</th><th></th></tr>${(sc.data||[]).map(x=>`<tr><td>${esc(x.name)}</td><td><code>${esc(x.action)}</code></td><td>${x.every_minutes} min</td><td>${x.last_run_at?fmt(x.last_run_at):"—"}</td><td>${fmt(x.next_run_at)}</td><td><button class="btn ghost" data-aact="aisched" data-id="${x.id}" data-v="${!x.enabled}">${x.enabled?"Pause":"Resume"}</button></td></tr>`).join("")}</table></div>
+ <div class="card wrap"><b>Recent activity</b><table><tr><th>Time</th><th>From</th><th>Action</th><th>Status</th><th>Details</th></tr>${(ac.data||[]).map(a=>`<tr><td>${fmt(a.created_at)}</td><td>${esc(a.source)}</td><td><code>${esc(a.action)}</code></td><td class="${col[a.status]||""}">${esc(a.status)}</td><td><code>${short(a)}</code></td></tr>`).join("")||`<tr><td colspan="5" class="mut">Nothing yet. Schedules start running once the tick workflow is set up.</td></tr>`}</table></div>`)},
+async knowledge(){const{data}=chk(await sb.from("knowledge_docs").select("slug,title,body,published,updated_at").order("title"));kbDocs=data||[];
+ pane(`<div class="card"><b>Help articles</b><p class="mut">Write the answers to common questions here. Published articles are searchable; hidden ones are kept private.</p>
+ <div class="wrap"><table><tr><th>Title</th><th>Slug</th><th>Status</th><th>Updated</th><th></th></tr>${kbDocs.map(d=>`<tr><td>${esc(d.title)}</td><td><code>${esc(d.slug)}</code></td><td>${d.published?`<span class="ok">published</span>`:`<span class="mut">hidden</span>`}</td><td>${fmt(d.updated_at)}</td><td><button class="btn ghost" data-aact="kbedit" data-slug="${esc(d.slug)}">Edit</button> <button class="btn ghost" data-aact="kbdel" data-slug="${esc(d.slug)}">Delete</button></td></tr>`).join("")}</table></div></div>
+ <div class="card"><b>Write or edit an article</b><form data-aform="kb"><input name="title" placeholder="Title" maxlength="200" required style="width:100%"><input name="slug" placeholder="slug-like-this" pattern="[a-z0-9-]+" required style="width:100%"><textarea name="body" rows="8" placeholder="The answer" required style="width:100%"></textarea><label><input type="checkbox" name="published" checked style="width:auto"> Published</label><br><button class="btn">Save article</button></form></div>
+ <div class="card"><b>Test a search</b><form data-aform="kbtest"><input name="q" placeholder="Search the way a visitor would" required style="width:100%"><button class="btn">Search</button></form><div id="kbout"></div></div>`)},
+async audit(f=""){let q=sb.from("audit_logs").select("id,at,actor_id,actor_role,action,outcome,ip,route,details").order("at",{ascending:false}).limit(150);if(f)q=q.eq("outcome",f);const{data}=chk(await q);
+ pane(`<div class="card wrap">Filter: <select data-achg="audit"><option value="">all</option><option ${f==="denied"?"selected":""}>denied</option><option ${f==="error"?"selected":""}>error</option><option ${f==="success"?"selected":""}>success</option></select>
+ <table><tr><th>Time</th><th>Action</th><th>Outcome</th><th>Actor</th><th>IP</th><th>Details</th></tr>${data.map(a=>`<tr><td>${fmt(a.at)}</td><td>${esc(a.action)}</td><td class="${a.outcome==="success"?"ok":"bad"}">${a.outcome}</td><td>${sid(a.actor_id)} ${esc(a.actor_role||"")}</td><td>${esc(a.ip||"")}</td><td><code>${esc(JSON.stringify(a.details)).slice(0,160)}</code></td></tr>`).join("")}</table></div>`)}};
+
+const upd=async(t,v,id)=>{chk(await sb.from(t).update(v).eq("id",id));show(tab)};
+const A={
+susp:b=>upd("profiles",{suspended:b.dataset.v==="true"},b.dataset.id),
+async lsus(b){const r=prompt("Reason for suspending this license?");if(r)await upd("licenses",{status:"suspended",suspended_reason:r},b.dataset.id)},
+lun:b=>upd("licenses",{status:!b.dataset.exp||new Date(b.dataset.exp)>new Date()?"active":"expired",suspended_reason:null},b.dataset.id),
+async lexp(b){const d=prompt("New expiry date (YYYY-MM-DD):");if(d&&!isNaN(new Date(d)))await upd("licenses",{expires_at:new Date(d).toISOString()},b.dataset.id)},
+async lnodes(b){const t=prompt("Maximum engines (a number, or leave empty for unlimited):");if(t===null)return;const n=t.trim()===""?null:parseInt(t,10);if(n!==null&&!(n>0))return;await upd("licenses",{max_nodes:n},b.dataset.id)},
+pub:b=>upd("software_releases",{published:b.dataset.v==="true",published_at:b.dataset.v==="true"?new Date().toISOString():null},b.dataset.id),
+async grant(b){const d=parseInt(prompt("Grant Premium for how many days?","30"),10);if(!(d>0))return;chk(await sb.rpc("admin_grant_premium",{p_user:b.dataset.id,p_days:d}));toast("Premium granted for "+d+" days.");show(tab)},
+async lsave(b){const ed=b.dataset.ed,v={features:$("#f"+ed).value.split(",").map(x=>x.trim()).filter(Boolean)};
+ if(ed==="basic"){const d=$("#vu").value;if(!d)throw new Error("Pick an end date for Basic licenses.");v.valid_until=new Date(d+"T23:59:59Z").toISOString()}
+ chk(await sb.from("license_policy").update(v).eq("edition",ed));toast("License policy saved.");show(tab)},
+async aikill(b){await call("agent",{op:"kill",enabled:b.dataset.v==="true"});toast(b.dataset.v==="true"?"The AI and schedules are on.":"Switched off. The AI and all schedules are stopped.");show("ai")},
+async aiok(b){const r=await call("agent",{op:"decide",id:b.dataset.id,decision:"approve"});toast("Approved: "+(r?.status||"done"));show("ai")},
+async aino(b){await call("agent",{op:"decide",id:b.dataset.id,decision:"reject"});toast("Rejected.");show("ai")},
+aisched:b=>upd("agent_schedules",{enabled:b.dataset.v==="true"},b.dataset.id),
+kbedit(b){const d=kbDocs.find(x=>x.slug===b.dataset.slug),f=document.querySelector("[data-aform=kb]");if(!d||!f)return;f.elements.title.value=d.title;f.elements.slug.value=d.slug;f.elements.body.value=d.body;f.elements.published.checked=d.published;f.scrollIntoView()},
+async kbdel(b){if(!confirm("Delete this article?"))return;chk(await sb.from("knowledge_docs").delete().eq("slug",b.dataset.slug));toast("Deleted.");show("knowledge")},
+rev:b=>confirm("Revoke this node? It will stop being accepted.")&&upd("nodes",{status:"revoked"},b.dataset.id),
+tix:b=>upd("support_tickets",{staff_reply:$("#r"+b.dataset.id).value,status:$("#s"+b.dataset.id).value},b.dataset.id)};
+document.addEventListener("click",async e=>{const t=e.target.closest("[data-atab]");if(t)return show(t.dataset.atab);const b=e.target.closest("[data-aact]");if(!b)return;b.disabled=true;
+ try{await A[b.dataset.aact](b)}catch(x){toast(x.message)}finally{b.disabled=false}});
+document.addEventListener("change",async e=>{const s=e.target.closest("[data-achg]");if(!s)return;
+ try{if(s.dataset.achg==="role"){await upd("profiles",{role:s.value},s.dataset.id);toast("Role updated.")}else T.audit(s.value)}catch(x){toast(x.message);show(tab)}});
+document.addEventListener("submit",async e=>{const f=e.target.closest("[data-aform]");if(!f)return;e.preventDefault();const d=new FormData(f),file=d.get("file"),st=$("#relst"),btn=f.querySelector("button");btn.disabled=true;
+ if(f.dataset.aform==="aiask"){try{let params={};const raw=(d.get("params")||"").trim();if(raw){try{params=JSON.parse(raw)}catch{throw new Error("Parameters must be valid JSON, for example {\"days\": 7}")}}
+  const r=await call("agent",{op:"propose",action:d.get("action"),params,reason:d.get("reason")||undefined});toast(r.status==="pending"?"Waiting for your approval.":"Done: "+r.status);show("ai")}catch(x){toast(x.message)}finally{btn.disabled=false}return}
+ if(f.dataset.aform==="kb"){try{chk(await sb.from("knowledge_docs").upsert({slug:d.get("slug"),title:d.get("title"),body:d.get("body"),published:d.get("published")==="on"},{onConflict:"slug"}));toast("Article saved.");show("knowledge")}catch(x){toast(x.message)}finally{btn.disabled=false}return}
+ if(f.dataset.aform==="kbtest"){try{const q=d.get("q");let r=await sb.from("knowledge_docs").select("slug,title,body").eq("published",true).textSearch("fts",q,{type:"websearch",config:"english"}).limit(3);chk(r);let rows=r.data||[];
+  if(!rows.length){const like=q.replace(/[^\p{L}\p{N}\s]/gu," ").replace(/\s+/g," ").trim();if(like){r=await sb.from("knowledge_docs").select("slug,title,body").eq("published",true).or(`title.ilike.%${like}%,body.ilike.%${like}%`).limit(3);chk(r);rows=r.data||[]}}
+  $("#kbout").innerHTML=rows.length?rows.map(x=>`<p><b>${esc(x.title)}</b><br><span class="mut">${esc(x.body.slice(0,300))}…</span></p>`).join(""):`<p class="mut">No article matches. Write one for this.</p>`}catch(x){toast(x.message)}finally{btn.disabled=false}return}
+ try{const meta={edition:d.get("edition"),channel:d.get("channel"),version:d.get("version"),os:d.get("os"),arch:d.get("arch"),filename:file.name.replace(/[^A-Za-z0-9._-]/g,"_")};
+  st.textContent="Hashing…";const buf=await file.arrayBuffer(),sha256=[...new Uint8Array(await crypto.subtle.digest("SHA-256",buf))].map(x=>x.toString(16).padStart(2,"0")).join("");
+  st.textContent="Preparing…";const p=await call("publish-release",{action:"prepare",...meta});
+  st.textContent="Uploading…";const up=await sb.storage.from("releases").uploadToSignedUrl(p.path,p.token,buf,{contentType:"application/octet-stream",upsert:true});if(up.error)throw up.error;
+  await call("publish-release",{action:"commit",...meta,sha256,file_size:file.size,release_notes:d.get("notes")||"",publish:true});toast("Release published.");show("releases")}
+ catch(x){st.textContent="";toast(x.message)}finally{btn.disabled=false}});
+return{render}})();
+
+// ---- Router and auth ----
+const R={"/":home,"/pricing":pricing,"/download":download,"/login":()=>user&&!recovery?(go("/dashboard")):login(),"/dashboard":dashboard,"/admin":()=>Admin.render(),"/docs":docs,"/player":player,"/changelog":changelog,"/about":about,"/features":features,"/basic":basic,"/premium":premium,"/support":support,"/privacy":privacy,"/terms":terms,"/install":()=>{sec="d1";return docs()},"/api":()=>{sec="d2";return docs()},"/faq":()=>{sec="d6";return docs()}};
+async function route(){const p=cur.split("?")[0];if(p!=="/player"&&ytp){try{ytp.destroy()}catch{}ytp=null;clearInterval(tick)}
+document.querySelectorAll("nav a").forEach(a=>a.classList.toggle("on",a.getAttribute("href")==="#"+p));
+if(!user)adm={id:null,ok:false};else if(adm.id!==user.id)adm={id:user.id,ok:(await sb.from("profiles").select("role").eq("id",user.id).single()).data?.role==="admin"};
+$("#adm").hidden=!adm.ok;const a=$("#acct");a.textContent=user?"Dashboard":"Sign in";a.href=user?"#/dashboard":"#/login";await(R[p]||home)();scrollTo(0,0);if(sec){document.getElementById(sec)?.scrollIntoView();sec=null}}
+try{cur=location.hash.slice(1)||"/"}catch{}
+const go=p=>{cur=p;document.querySelector("header").classList.remove("open");try{history.replaceState(null,"","#"+p)}catch{}route()};
+addEventListener("hashchange",()=>{try{cur=location.hash.slice(1)||"/"}catch{}route()});
+document.addEventListener("click",e=>{const a=e.target.closest('a[href^="#/"]');if(!a)return;e.preventDefault();go(a.getAttribute("href").slice(1))});
+const ret=new URLSearchParams(location.search).get("checkout");
+if(ret){cur="/dashboard";try{history.replaceState(null,"",location.pathname+"#/dashboard")}catch{}}
+async function afterPayPal(){toast("Confirming your payment with PayPal…");
+for(let i=0;i<4;i++){try{const r=await call("billing",{action:"sync"});if(r.premium.active){toast("Premium is active. Thank you!");break}}catch{}await wait(3000)}route()}
+sb.auth.onAuthStateChange((ev,s)=>{const prev=user?.id;user=s?.user??null;
+ if(ev==="PASSWORD_RECOVERY"){recovery=true;go("/login")}
+ if(ev==="INITIAL_SESSION"){setTimeout(()=>{route();if(ret==="return"&&user)afterPayPal();if(ret==="canceled")toast("Checkout canceled. You haven’t been charged.")},0)}
+ else if(prev!==user?.id)setTimeout(route,0)});
+
+if(["/","/pricing","/download","/docs","/changelog","/features","/about","/faq","/privacy","/terms","/basic","/premium","/install","/api"].includes(cur))route();
+});
+</script></body></html>
